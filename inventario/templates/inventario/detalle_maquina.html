@@ -1,0 +1,148 @@
+{% extends 'inventario/base.html' %}
+{% load static %}
+
+{% block title %}TAVOL {{ m.modelo }} | Especificaciones Técnicas{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="bg-light py-3 border-bottom">
+    <div class="container text-uppercase small fw-bold">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo' %}" class="text-decoration-none text-muted">Catálogo</a></li>
+            <li class="breadcrumb-item active text-danger" aria-current="page">{{ m.modelo }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Product Image / Gallery -->
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="sticky-top" style="top: 100px;">
+                    <div class="product-detail-img shadow-lg rounded-4 overflow-hidden border">
+                        {% if m.imagen %}
+                            <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}" class="img-fluid w-100">
+                        {% else %}
+                            <div class="bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 500px;">
+                                <h3 class="fw-bold">SIN IMAGEN DISPONIBLE</h3>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Specs & Title -->
+            <div class="col-lg-5" data-aos="fade-left">
+                <div class="ps-lg-4">
+                    <span class="badge-unit mb-3">{{ m.marca }}</span>
+                    <h1 class="display-4 fw-800 machine-title mb-2">{{ m.modelo }}</h1>
+                    <p class="h3 text-danger fw-bold mb-4">Potencia: {{ m.potencia_hp }} HP</p>
+                    
+                    <div class="mb-5 pb-4 border-bottom">
+                        <h5 class="fw-bold text-uppercase small text-muted mb-3">Descripción General</h5>
+                        <p class="lead text-muted">{{ m.descripcion }}</p>
+                    </div>
+
+                    <!-- Quick Highlights Grid -->
+                    <div class="row g-3 mb-5">
+                        <div class="col-6">
+                            <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                <small class="text-muted d-block small fw-bold">TRACCIÓN</small>
+                                <span class="fw-800 text-uppercase">{{ m.traccion }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                <small class="text-muted d-block small fw-bold">AÑO MODELO</small>
+                                <span class="fw-800">{{ m.año }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-tavol btn-lg py-3 fw-bold fs-5" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#cotizacionModal"
+                                data-bs-machine="{{ m.modelo }}">
+                            SOLICITAR COTIZACIÓN
+                        </button>
+                        <a href="https://wa.me/5491122334455?text=Hola!%20Deseo%20más%20información%20sobre%20el%20TAVOL%20{{ m.modelo }}" 
+                           class="btn btn-outline-success btn-lg py-3 fw-bold" target="_blank">
+                            <i class="fab fa-whatsapp me-2"></i> CONSULTAR POR WHATSAPP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Specs Table -->
+<section class="py-5 bg-light border-top">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <div class="text-center mb-5">
+                    <h2 class="fw-800 display-6">ESPECIFICACIONES <span class="text-danger">TÉCNICAS</span></h2>
+                    <p class="text-muted">Detalle profundo de ingeniería y rendimiento.</p>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <table class="table table-striped table-hover mb-0">
+                        <tbody class="fs-5">
+                            <tr class="py-3">
+                                <td class="fw-bold ps-4 text-muted small text-uppercase py-3" style="width: 40%;">Marca</td>
+                                <td class="py-3">{{ m.marca }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold ps-4 text-muted small text-uppercase py-3">Modelo</td>
+                                <td class="py-3">{{ m.modelo }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold ps-4 text-muted small text-uppercase py-3">Potencia Nominal</td>
+                                <td class="py-3">{{ m.potencia_hp }} HP</td>
+                            </tr>
+                            {% for spec in specs %}
+                            <tr>
+                                <td class="fw-bold ps-4 text-muted small text-uppercase py-3">{{ spec.key }}</td>
+                                <td class="py-3">{{ spec.value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+{% if relacionados %}
+<section class="py-5 bg-white">
+    <div class="container py-5">
+        <div class="mb-5" data-aos="fade-right">
+            <h3 class="fw-800">UNIDADES <span class="text-danger">RELACIONADAS</span></h3>
+        </div>
+        <div class="row">
+            {% for rel in relacionados %}
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                <div class="card card-tavol h-100">
+                    <div class="card-img-container" style="height: 200px;">
+                        {% if rel.imagen %}
+                            <img src="{{ rel.imagen.url }}" alt="{{ rel.modelo }}">
+                        {% endif %}
+                    </div>
+                    <div class="card-body p-4">
+                        <h4 class="machine-title h5">{{ rel.modelo }}</h4>
+                        <a href="{% url 'detalle_maquina' rel.pk %}" class="btn btn-outline-danger w-100 mt-2 fw-bold">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

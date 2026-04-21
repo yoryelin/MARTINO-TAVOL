@@ -1,0 +1,113 @@
+{% extends 'inventario/base.html' %}
+{% load static %}
+
+{% block title %}TAVOL ARGENTINA | Potencia que Transforma el Campo{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white d-flex align-items-center" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{% static 'inventario/img/hero_tavol.png' %}') no-repeat center center/cover; height: 90vh;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7" data-aos="fade-right">
+                <h1 class="display-1 fw-800 text-uppercase mb-3" style="font-family: 'Montserrat', sans-serif; letter-spacing: -2px;">Potencia que <span class="brand-accent">Transforma</span></h1>
+                <p class="lead mb-5 fs-4">Líderes en tecnología de exportación. Diseñados para las exigencias del campo argentino.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'catalogo' %}" class="btn btn-tavol btn-lg px-5 py-3 fs-5">Ver Catálogo</a>
+                    <button class="btn btn-outline-light btn-lg px-5 py-3 fs-5" data-bs-toggle="modal" data-bs-target="#cotizacionModal">Contactar Experto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Brand Values -->
+<section class="py-5 bg-white overflow-hidden">
+    <div class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6" data-aos="fade-up">
+                <h2 class="display-5 fw-800 machine-title mb-4">INGENIERÍA SIN <span class="text-danger">LÍMITES</span></h2>
+                <p class="text-muted fs-5">TAVOL combina robustez mecánica con sistemas de control inteligente. Cada unidad está pensada para maximizar el rendimiento y minimizar el consumo, asegurando que cada jornada en el campo sea productiva.</p>
+            </div>
+            <div class="col-lg-6 text-center" data-aos="zoom-in">
+                 <div class="p-5">
+                     <span class="display-2 fw-800 text-danger" style="opacity: 0.1; position: absolute; left: 50%; transform: translateX(-50%);">TAVOL</span>
+                     <img src="{% static 'inventario/img/tavol_detail.png' %}" alt="Detail" class="img-fluid rounded-4 shadow-lg">
+                 </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-5">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="p-4 border-start border-4 border-danger h-100">
+                    <h4 class="fw-bold mb-3">CONFIABILIDAD</h4>
+                    <p class="text-muted">Motores con tecnología alemana adaptados para alta performance y durabilidad extrema.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="p-4 border-start border-4 border-danger h-100">
+                    <h4 class="fw-bold mb-3">TECNOLOGÍA</h4>
+                    <p class="text-muted">Cabinas panorámicas con climatización inteligente y sistemas de agricultura de precisión.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="p-4 border-start border-4 border-danger h-100">
+                    <h4 class="fw-bold mb-3">SOPORTE</h4>
+                    <p class="text-muted">Servicio técnico especializado y stock permanente de repuestos originales en Argentina.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-dark text-white text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3" data-aos="zoom-in">
+                <h2 class="display-4 fw-800 mb-0">100%</h2>
+                <p class="text-muted text-uppercase small">Calidad Controlada</p>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+                <h2 class="display-4 fw-800 mb-0">+50</h2>
+                <p class="text-muted text-uppercase small">Localidades</p>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+                <h2 class="display-4 fw-800 mb-0">2026</h2>
+                <p class="text-muted text-uppercase small">Tecnología de Punta</p>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+                <h2 class="display-4 fw-800 mb-0">24/7</h2>
+                <p class="text-muted text-uppercase small">Soporte Técnico</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Product Preview -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="fw-800 display-5">FLOTA <span class="text-danger">EXCELENCIA</span></h2>
+            <p class="text-muted">Nuestras unidades más potentes diseñadas para el productor de hoy.</p>
+        </div>
+        <div class="row">
+            {% for m in featured %}
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                <div class="card card-tavol h-100">
+                    <div class="card-img-container">
+                        {% if m.imagen %}
+                            <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
+                        {% endif %}
+                    </div>
+                    <div class="card-body p-4">
+                        <h4 class="machine-title h5">{{ m.modelo }}</h4>
+                        <p class="small text-muted">{{ m.potencia_hp }} HP | {{ m.traccion }}</p>
+                        <a href="{% url 'detalle_maquina' m.pk %}" class="btn btn-outline-danger w-100 fw-bold mt-2">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

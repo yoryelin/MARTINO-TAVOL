@@ -1,0 +1,313 @@
+:root {
+    --tavol-red: #D82027;
+    --tavol-black: #121212;
+    --tavol-grey: #4A4A4A;
+    --tavol-light: #F8F9FA;
+    --tavol-white: #FFFFFF;
+}
+
+body {
+    background-color: var(--tavol-light);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--tavol-black);
+}
+
+/* Navbar Premium */
+.navbar-tavol {
+    background-color: var(--tavol-black);
+    border-bottom: 3px solid var(--tavol-red);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    font-size: 1.5rem;
+}
+
+.brand-accent {
+    color: var(--tavol-red);
+}
+
+/* Tarjetas de Maquinaria */
+.card-tavol {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background: var(--tavol-white);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-tavol:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-img-container {
+    height: 220px;
+    overflow: hidden;
+    background-color: #eee;
+    position: relative;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+}
+
+.card-tavol:hover .card-img-container img {
+    transform: scale(1.05);
+}
+
+.badge-stock {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.badge-disponible { background-color: var(--tavol-red); color: white; }
+.badge-transito { background-color: #f59e0b; color: white; }
+.badge-pedido { background-color: #6b7280; color: white; }
+
+/* Tipografía y Detalles */
+.machine-title {
+    font-weight: 800;
+    color: var(--tavol-black);
+    margin-bottom: 0.25rem;
+}
+
+.machine-model {
+    font-weight: 600;
+    color: var(--tavol-grey);
+    margin-bottom: 1.5rem;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.spec-item {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.spec-label {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--tavol-grey);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.spec-value {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--tavol-black);
+}
+
+/* Botones */
+.btn-tavol {
+    background-color: var(--tavol-red);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-tavol:hover {
+    background-color: #b01a20;
+    color: white;
+    box-shadow: 0 4px 12px rgba(216, 32, 39, 0.3);
+}
+
+/* Tipografía Premium */
+.fw-800 { font-weight: 800; }
+.brand-accent { color: var(--tavol-red); }
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section h1 {
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Efectos de Vidrio (Glassmorphism) */
+.navbar-tavol {
+    backdrop-filter: blur(10px);
+    background-color: rgba(18, 18, 18, 0.95);
+}
+
+/* Animaciones y Hover */
+.btn-tavol {
+    box-shadow: 0 4px 15px rgba(216, 32, 39, 0.4);
+    transform: perspective(1px) translateZ(0);
+}
+
+.btn-tavol:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Grid de Especificaciones Refinado */
+.spec-item {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.card-tavol:hover .spec-item {
+    background: white;
+    border-color: var(--tavol-red);
+}
+
+/* =========================================
+   CANALES DE CONVERSIÓN (LEADS)
+   ========================================= */
+
+/* Botón Flotante WhatsApp */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    color: #FFF;
+    background-color: #128c7e;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* Modal Premium */
+.modal-tavol .modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #FFF;
+}
+
+.modal-tavol .modal-header {
+    background-color: var(--tavol-black);
+    color: white;
+    border-bottom: 3px solid var(--tavol-red);
+    padding: 1.5rem;
+}
+
+.modal-tavol .form-control {
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+.modal-tavol .form-control:focus {
+    border-color: var(--tavol-red);
+    box-shadow: 0 0 0 0.25rem rgba(216, 32, 39, 0.1);
+}
+
+.modal-tavol .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* =========================================
+   PÁGINA DE DETALLE DE PRODUCTO
+   ========================================= */
+
+.product-detail-img img {
+    transition: transform 0.5s ease;
+}
+
+.product-detail-img:hover img {
+    transform: scale(1.05);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "|";
+    color: #ccc;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(216, 32, 39, 0.02);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(216, 32, 39, 0.05);
+}
+
+/* Navbar Co-branding Refinado */
+.brand-tavol-split span:first-child {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+}
+
+.brand-tavol-split span:last-child {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    opacity: 0.8;
+}
+
+.martino-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #FFF;
+    opacity: 0.9;
+}
+
+.navbar-brand img {
+    border-radius: 6px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.brand-accent {
+    color: var(--tavol-red);
+    font-weight: 900;
+}
+
+/* Footer Detallado */
+.footer-tavol {
+    background: linear-gradient(to top, #000, #121212);
+    border-top: 4px solid var(--tavol-red);
+    color: #FFF;
+    padding: 40px 0 20px;
+}
+
+.letter-spacing-2 {
+    letter-spacing: 2px;
+}

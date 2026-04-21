@@ -1,0 +1,28 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.env
+
+# Statics
+staticfiles/
+
+# IDEs
+.vscode/
+.idea/
+
+# Scripts de ayuda local
+move_assets.py
+move_martino_logo.py
+seed_tavol.py
+build.sh
