@@ -25,4 +25,4 @@ staticfiles/
 move_assets.py
 move_martino_logo.py
 seed_tavol.py
-build.sh
+# build.sh - No ignorar, es necesario para Render
