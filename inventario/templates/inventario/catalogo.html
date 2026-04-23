@@ -24,13 +24,18 @@
                     {% if m.imagen %}
                         <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
                     {% else %}
-                        <div class="d-flex align-items-center justify-content-center h-100 bg-secondary text-white">
-                            <span class="fw-bold">SIN IMAGEN</span>
-                        </div>
+                        {% if 'invernadero' in m.modelo|lower %}
+                            <img src="{% static 'inventario/img/tractores/tractor_greenhouse.png' %}" alt="{{ m.modelo }}">
+                        {% elif 'pala' in m.modelo|lower %}
+                            <img src="{% static 'inventario/img/tractores/tractor_loader.png' %}" alt="{{ m.modelo }}">
+                        {% elif 'dual' in m.modelo|lower %}
+                            <img src="{% static 'inventario/img/tractores/tractor_dual.png' %}" alt="{{ m.modelo }}">
+                        {% elif 'cabina' in m.modelo|lower %}
+                            <img src="{% static 'inventario/img/tractores/tractor_cabin.png' %}" alt="{{ m.modelo }}">
+                        {% else %}
+                            <img src="{% static 'inventario/img/tractores/tractor_standard.png' %}" alt="{{ m.modelo }}">
+                        {% endif %}
                     {% endif %}
-                    <span class="badge-stock badge-{{ m.estado_stock }}">
-                        {{ m.get_estado_stock_display }}
-                    </span>
                 </div>
                 <div class="card-body p-4">
                     <div class="mb-2">
@@ -190,12 +195,25 @@
                 extraContainer.classList.add('d-none');
             }
             
+            const modelo = button.getAttribute('data-bs-modelo').toLowerCase();
             const imgUrl = button.getAttribute('data-bs-imagen');
             const imgElement = document.getElementById('modalImg');
-            if (imgUrl) {
+            
+            if (imgUrl && imgUrl !== "") {
                 imgElement.src = imgUrl;
             } else {
-                imgElement.src = "https://placehold.co/600x400?text=MARTINO+AGRO";
+                // Lógica de imágenes inteligentes por categoría
+                if (modelo.includes('invernadero')) {
+                    imgElement.src = "{% static 'inventario/img/tractores/tractor_greenhouse.png' %}";
+                } else if (modelo.includes('pala')) {
+                    imgElement.src = "{% static 'inventario/img/tractores/tractor_loader.png' %}";
+                } else if (modelo.includes('dual')) {
+                    imgElement.src = "{% static 'inventario/img/tractores/tractor_dual.png' %}";
+                } else if (modelo.includes('cabina')) {
+                    imgElement.src = "{% static 'inventario/img/tractores/tractor_cabin.png' %}";
+                } else {
+                    imgElement.src = "{% static 'inventario/img/tractores/tractor_standard.png' %}";
+                }
             }
         });
     }
