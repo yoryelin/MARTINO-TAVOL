@@ -51,7 +51,20 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="{% url 'detalle_maquina' m.pk %}" class="btn btn-outline-dark fw-bold">Ver Detalles</a>
+                        <button class="btn btn-outline-dark fw-bold" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#especificacionesModal"
+                                data-bs-marca="{{ m.marca }}"
+                                data-bs-modelo="{{ m.modelo }}"
+                                data-bs-hp="{{ m.potencia_hp }}"
+                                data-bs-traccion="{{ m.traccion }}"
+                                data-bs-transmision="{{ m.transmision }}"
+                                data-bs-motor="{{ m.motor }}"
+                                data-bs-descripcion="{{ m.descripcion }}"
+                                data-bs-extra="{{ m.especificaciones_extra }}"
+                                data-bs-imagen="{% if m.imagen %}{{ m.imagen.url }}{% endif %}">
+                            Ver Ficha Técnica
+                        </button>
                         <button class="btn btn-tavol" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#cotizacionModal" 
@@ -73,6 +86,148 @@
         {% endfor %}
     </div>
 </main>
+
+<!-- Modal de Especificaciones Premium -->
+<div class="modal fade modal-tavol" id="especificacionesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+            <div class="modal-header bg-dark text-white p-4" style="border-bottom: 4px solid var(--tavol-red);">
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'inventario/img/martino_logo.png' %}" alt="MARTINO" height="40" class="me-3 rounded shadow-sm">
+                    <div>
+                        <h4 class="modal-title fw-800 mb-0"><span id="modalMarca" class="text-danger"></span> <span id="modalModelo"></span></h4>
+                        <small class="text-secondary text-uppercase fw-bold" style="letter-spacing: 1px;">Especificaciones de Ingeniería</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row g-0">
+                    <div class="col-lg-6 bg-light d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 400px;">
+                        <img id="modalImg" src="" alt="Maquinaria" class="img-fluid rounded-4 shadow-lg mb-3" style="max-height: 350px; object-fit: contain;">
+                        <p class="text-muted small text-center px-4" style="font-size: 0.75rem; opacity: 0.8;">
+                            <i class="fas fa-info-circle me-1"></i> Las imágenes son de carácter ilustrativo y pueden variar según la configuración técnica de la unidad.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 p-4 p-lg-5">
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Resumen del Equipo</h5>
+                            <p id="modalDesc" class="text-muted fs-5"></p>
+                        </div>
+                        
+                        <!-- Grid de Specs Rápidas -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                    <small class="text-muted d-block small fw-bold">POTENCIA</small>
+                                    <span id="modalHP" class="fw-800 fs-5"></span> HP
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                    <small class="text-muted d-block small fw-bold">TRACCIÓN</small>
+                                    <span id="modalTraccion" class="fw-800 fs-5 text-uppercase"></span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                    <small class="text-muted d-block small fw-bold">MOTOR</small>
+                                    <span id="modalMotor" class="fw-800"></span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger">
+                                    <small class="text-muted d-block small fw-bold">TRANSMISIÓN</small>
+                                    <span id="modalTransmision" class="fw-800"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="modalExtraContainer" class="mb-4">
+                            <h6 class="fw-bold text-uppercase small text-danger mb-2">Detalles Técnicos Adicionales</h6>
+                            <div id="modalExtra" class="bg-white border rounded-3 p-3 small text-muted shadow-sm"></div>
+                        </div>
+
+                        <div class="d-grid gap-2 pt-3">
+                            <button class="btn btn-tavol py-3 fw-bold" onclick="abrirCotizacionDesdeSpecs()">SOLICITAR COTIZACIÓN DE ESTA UNIDAD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light p-3 justify-content-between px-4">
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-success rounded-pill px-3 py-2 me-2">Garantía 2 Años</span>
+                    <span class="badge bg-dark rounded-pill px-3 py-2">Respaldo MARTINO</span>
+                </div>
+                <button type="button" class="btn btn-outline-dark px-4 rounded-pill fw-bold" data-bs-dismiss="modal">CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Lógica para llenar el modal de especificaciones
+    const especificacionesModal = document.getElementById('especificacionesModal');
+    if (especificacionesModal) {
+        especificacionesModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            
+            // Extraer datos de los atributos data-bs-*
+            document.getElementById('modalMarca').textContent = button.getAttribute('data-bs-marca');
+            document.getElementById('modalModelo').textContent = button.getAttribute('data-bs-modelo');
+            document.getElementById('modalHP').textContent = button.getAttribute('data-bs-hp');
+            document.getElementById('modalTraccion').textContent = button.getAttribute('data-bs-traccion');
+            document.getElementById('modalMotor').textContent = button.getAttribute('data-bs-motor');
+            document.getElementById('modalTransmision').textContent = button.getAttribute('data-bs-transmision');
+            document.getElementById('modalDesc').textContent = button.getAttribute('data-bs-descripcion');
+            
+            const extra = button.getAttribute('data-bs-extra');
+            const extraContainer = document.getElementById('modalExtraContainer');
+            if (extra && extra.trim() !== "") {
+                extraContainer.classList.remove('d-none');
+                document.getElementById('modalExtra').textContent = extra;
+            } else {
+                extraContainer.classList.add('d-none');
+            }
+            
+            const imgUrl = button.getAttribute('data-bs-imagen');
+            const imgElement = document.getElementById('modalImg');
+            if (imgUrl) {
+                imgElement.src = imgUrl;
+            } else {
+                imgElement.src = "{% static 'inventario/img/placeholder_tractor.png' %}";
+            }
+        });
+    }
+
+    function abrirCotizacionDesdeSpecs() {
+        const marca = document.getElementById('modalMarca').textContent;
+        const modelo = document.getElementById('modalModelo').textContent;
+        
+        // Cerrar modal actual
+        bootstrap.Modal.getInstance(especificacionesModal).hide();
+        
+        // Abrir modal de cotización con el nombre de la máquina
+        const cotModal = new bootstrap.Modal(document.getElementById('cotizacionModal'));
+        
+        // Esperar un momento para que se cierre el anterior y se prepare el nuevo
+        setTimeout(() => {
+            const cotBtn = document.createElement('button');
+            cotBtn.setAttribute('data-bs-machine', `${marca} ${modelo}`);
+            const event = { relatedTarget: cotBtn };
+            
+            // Disparar manualmente el evento de mostrar para que se llene el nombre
+            document.getElementById('cotizacionModal').dispatchEvent(new CustomEvent('show.bs.modal', { detail: event }));
+            
+            // El listener original de base.html espera event.relatedTarget
+            // Vamos a forzar el llenado directamente para mayor seguridad:
+            document.getElementById('modalMachineName').textContent = `${marca} ${modelo}`;
+            document.getElementById('modalUnitInfo').classList.remove('d-none');
+            
+            cotModal.show();
+        }, 400);
+    }
+</script>
 {% endblock %}
 
 </html>

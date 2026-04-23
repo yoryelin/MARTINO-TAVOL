@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Aplicar migraciones
 python manage.py migrate
+
+# Cargar catálogo de maquinaria (Seed)
+python seed_martino_tavol.py
