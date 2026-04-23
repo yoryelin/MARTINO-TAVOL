@@ -54,14 +54,14 @@
                         <button class="btn btn-outline-dark fw-bold" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#especificacionesModal"
-                                data-bs-marca="{{ m.marca }}"
-                                data-bs-modelo="{{ m.modelo }}"
+                                data-bs-marca="{{ m.marca|escape }}"
+                                data-bs-modelo="{{ m.modelo|escape }}"
                                 data-bs-hp="{{ m.potencia_hp }}"
-                                data-bs-traccion="{{ m.traccion }}"
-                                data-bs-transmision="{{ m.transmision }}"
-                                data-bs-motor="{{ m.motor }}"
-                                data-bs-descripcion="{{ m.descripcion }}"
-                                data-bs-extra="{{ m.especificaciones_extra }}"
+                                data-bs-traccion="{{ m.traccion|escape }}"
+                                data-bs-transmision="{{ m.transmision|escape }}"
+                                data-bs-motor="{{ m.motor|escape }}"
+                                data-bs-descripcion="{{ m.descripcion|escape }}"
+                                data-bs-extra="{{ m.especificaciones_extra|escape }}"
                                 data-bs-imagen="{% if m.imagen %}{{ m.imagen.url }}{% endif %}">
                             Ver Ficha Técnica
                         </button>
@@ -195,7 +195,7 @@
             if (imgUrl) {
                 imgElement.src = imgUrl;
             } else {
-                imgElement.src = "{% static 'inventario/img/placeholder_tractor.png' %}";
+                imgElement.src = "https://placehold.co/600x400?text=MARTINO+AGRO";
             }
         });
     }
