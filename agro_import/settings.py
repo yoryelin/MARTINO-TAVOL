@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*+rnmjsyso4s5ifdq@l-+073ne58lftb1f#5jm1x+$0)9(y&sx')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*'] # En producción deberías restringirlo a tu dominio de Render
 
@@ -137,7 +137,7 @@ STORAGES = {
 }
 
 # Configuración de archivos Media (Imágenes de tractores)
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Seguridad de producción para Render
