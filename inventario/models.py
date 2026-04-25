@@ -21,6 +21,7 @@ class Maquinaria(models.Model):
     precio_usd = models.DecimalField(
         max_digits=12, decimal_places=2, null=True, blank=True)
     imagen = models.ImageField(upload_to='maquinaria/', null=True, blank=True)
+    nombre_imagen_local = models.CharField(max_length=100, blank=True, null=True, verbose_name="Nombre Imagen Local", help_text="Ej: TL1404.png. Debe estar en inventario/static/inventario/img/")
     descripcion = models.TextField(blank=True)
     especificaciones_extra = models.TextField(
         blank=True, verbose_name="Especificaciones Técnicas")

@@ -27,7 +27,7 @@ class MaquinariaAdmin(admin.ModelAdmin):
             'fields': (('potencia_hp', 'traccion'), ('motor', 'transmision'), 'especificaciones_extra')
         }),
         ('Contenido Visual y Comercial', {
-            'fields': ('imagen', 'preview_imagen', 'descripcion', 'precio_usd'),
+            'fields': ('imagen', 'nombre_imagen_local', 'preview_imagen', 'descripcion', 'precio_usd'),
             'description': 'Aquí puedes subir la foto real o dejar que el sistema asigne una por defecto según el modelo.'
         }),
     )
@@ -44,7 +44,11 @@ class MaquinariaAdmin(admin.ModelAdmin):
     preview_imagen.short_description = "Vista Previa"
 
     def _get_smart_image_url(self, obj):
-        # Lógica de imagen inteligente para el Admin
+        # 1. Imagen local estática vinculada manualmente (Opción A)
+        if getattr(obj, 'nombre_imagen_local', None):
+            return static(f'inventario/img/{obj.nombre_imagen_local}')
+            
+        # 2. Lógica de imagen subida desde el Admin
         if obj.imagen:
             return obj.imagen.url
         

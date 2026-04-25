@@ -21,7 +21,9 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             <div class="card card-tavol h-100">
                 <div class="card-img-container">
-                    {% if m.imagen %}
+                    {% if m.nombre_imagen_local %}
+                        <img src="{% static 'inventario/img/' %}{{ m.nombre_imagen_local }}" alt="{{ m.modelo }}">
+                    {% elif m.imagen %}
                         <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
                     {% else %}
                         {% if 'invernadero' in m.modelo|lower %}

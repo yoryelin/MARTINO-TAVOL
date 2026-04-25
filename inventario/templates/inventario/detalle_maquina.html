@@ -21,7 +21,9 @@
             <div class="col-lg-7" data-aos="fade-right">
                 <div class="sticky-top" style="top: 100px;">
                     <div class="product-detail-img shadow-lg rounded-4 overflow-hidden border mb-2">
-                        {% if m.imagen %}
+                        {% if m.nombre_imagen_local %}
+                            <img src="{% static 'inventario/img/' %}{{ m.nombre_imagen_local }}" alt="{{ m.modelo }}" class="img-fluid w-100">
+                        {% elif m.imagen %}
                             <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}" class="img-fluid w-100">
                         {% else %}
                             <div class="bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 500px;">
