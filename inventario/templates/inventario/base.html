@@ -46,7 +46,7 @@
                         <button class="nav-link px-3 border-0 bg-transparent text-uppercase fw-bold" data-bs-toggle="modal" data-bs-target="#nosotrosModal">Nuestra Empresa</button>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-tavol px-4 py-2" href="https://wa.me/5493456450892?text=Hola!%20Deseo%20hacer%20una%20consulta" target="_blank">CONTACTAR</a>
+                        <button class="btn btn-tavol px-4 py-2" data-bs-toggle="modal" data-bs-target="#cotizacionModal">CONTACTAR</button>
                     </li>
                 </ul>
             </div>
@@ -120,17 +120,38 @@
                         <span class="badge-unit" id="modalMachineName"></span>
                     </div>
                     <form id="cotizacionForm">
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">Nombre Completo</label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Ej: Juan Pérez" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">Celular / WhatsApp</label>
-                            <input type="tel" class="form-control" name="telefono" placeholder="Ej: +54 9 11..." required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">Mensaje (Opcional)</label>
-                            <textarea class="form-control" name="mensaje" rows="3" placeholder="Contanos qué necesitás..."></textarea>
+                        <div class="row g-3">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Nombre Completo *</label>
+                                <input type="text" name="nombre" class="form-control form-control-lg border-2" placeholder="Ej: Juan Pérez" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Empresa</label>
+                                <input type="text" name="empresa" class="form-control border-2" placeholder="Nombre de tu empresa">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Cargo / Puesto</label>
+                                <input type="text" name="cargo" class="form-control border-2" placeholder="Ej: Gerente de Producción">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Rubro / Sector</label>
+                                <select name="rubro" class="form-select border-2">
+                                    <option value="" selected disabled>Seleccioná un rubro</option>
+                                    <option value="Agricultura">Agricultura</option>
+                                    <option value="Ganadería">Ganadería</option>
+                                    <option value="Contratista">Contratista Rural</option>
+                                    <option value="Vial / Construcción">Vial / Construcción</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Teléfono / WhatsApp *</label>
+                                <input type="tel" name="telefono" class="form-control form-control-lg border-2 border-danger" placeholder="Ej: 3456-450892" required>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Consulta Puntual</label>
+                                <textarea name="mensaje" class="form-control border-2" rows="3" placeholder="¿En qué podemos ayudarte?"></textarea>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-tavol w-100 py-3 mt-2">ENVIAR CONSULTA</button>
                     </form>
