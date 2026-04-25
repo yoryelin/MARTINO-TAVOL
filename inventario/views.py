@@ -40,6 +40,9 @@ def detalle_maquina(request, pk):
 @require_POST
 def enviar_consulta(request):
     nombre = request.POST.get('nombre')
+    empresa = request.POST.get('empresa')
+    cargo = request.POST.get('cargo')
+    rubro = request.POST.get('rubro')
     telefono = request.POST.get('telefono')
     mensaje = request.POST.get('mensaje')
     maquina_nombre = request.POST.get('maquina_nombre')
@@ -51,6 +54,9 @@ def enviar_consulta(request):
     # Guardar en base de datos
     consulta = Consulta.objects.create(
         nombre=nombre,
+        empresa=empresa,
+        cargo=cargo,
+        rubro=rubro,
         telefono=telefono,
         mensaje=mensaje,
         maquina_interes=maquina

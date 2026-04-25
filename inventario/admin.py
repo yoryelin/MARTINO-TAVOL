@@ -5,10 +5,10 @@ from .models import Maquinaria, Consulta
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'telefono', 'maquina_interes', 'fecha_consulta')
-    list_filter = ('maquina_interes', 'fecha_consulta')
-    search_fields = ('nombre', 'telefono', 'mensaje')
-    readonly_fields = ('fecha_consulta',)
+    list_display = ('codigo_seguimiento', 'nombre', 'empresa', 'rubro', 'telefono', 'fecha_consulta')
+    list_filter = ('rubro', 'maquina_interes', 'fecha_consulta')
+    search_fields = ('codigo_seguimiento', 'nombre', 'empresa', 'telefono')
+    readonly_fields = ('codigo_seguimiento', 'fecha_consulta')
     date_hierarchy = 'fecha_consulta'
     ordering = ('-fecha_consulta',)
 

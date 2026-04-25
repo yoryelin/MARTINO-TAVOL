@@ -33,9 +33,13 @@ class Maquinaria(models.Model):
 
 
 class Consulta(models.Model):
-    nombre = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=50)
-    mensaje = models.TextField(blank=True)
+    codigo_seguimiento = models.CharField(max_length=20, unique=True, editable=False, verbose_name="N° Seguimiento", null=True)
+    nombre = models.CharField(max_length=100, verbose_name="Nombre Completo")
+    empresa = models.CharField(max_length=100, blank=True, null=True, verbose_name="Empresa")
+    cargo = models.CharField(max_length=100, blank=True, null=True, verbose_name="Cargo / Puesto")
+    rubro = models.CharField(max_length=100, blank=True, null=True, verbose_name="Rubro / Sector")
+    telefono = models.CharField(max_length=50, verbose_name="Teléfono / WhatsApp")
+    mensaje = models.TextField(blank=True, verbose_name="Consulta Puntual")
     maquina_interes = models.ForeignKey(
         Maquinaria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Unidad de Interés")
     fecha_consulta = models.DateTimeField(auto_now_add=True)
@@ -44,5 +48,13 @@ class Consulta(models.Model):
         verbose_name = "Consulta de Cliente"
         verbose_name_plural = "Consultas de Clientes"
 
+    def save(self, *args, **kwargs):
+        if not self.codigo_seguimiento:
+            # Obtener el último ID para generar el correlativo
+            ultimo = Consulta.objects.order_by('id').last()
+            nuevo_id = 1 if not ultimo else ultimo.id + 1
+            self.codigo_seguimiento = f"MART-{nuevo_id:04d}"
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"Consulta de {self.nombre} - {self.fecha_consulta.strftime('%d/%m/%Y')}"
+        return f"{self.codigo_seguimiento} - {self.nombre}"
