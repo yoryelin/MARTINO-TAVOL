@@ -22,6 +22,7 @@ class Maquinaria(models.Model):
         max_digits=12, decimal_places=2, null=True, blank=True)
     imagen = models.ImageField(upload_to='maquinaria/', null=True, blank=True)
     nombre_imagen_local = models.CharField(max_length=100, blank=True, null=True, verbose_name="Nombre Imagen Local", help_text="Ej: TL1404.png. Debe estar en inventario/static/inventario/img/")
+    apto_credito_bna = models.BooleanField(default=True, verbose_name="Apto Crédito BNA")
     descripcion = models.TextField(blank=True)
     especificaciones_extra = models.TextField(
         blank=True, verbose_name="Especificaciones Técnicas")
@@ -59,3 +60,22 @@ class Consulta(models.Model):
 
     def __str__(self):
         return f"{self.codigo_seguimiento} - {self.nombre}"
+
+
+class ConfiguracionFinanciera(models.Model):
+    tasa_usd = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, verbose_name="Tasa BNA Dólares (%)")
+    tasa_pesos = models.DecimalField(max_digits=5, decimal_places=2, default=19.00, verbose_name="Tasa BNA Pesos (%)")
+    plazo_meses = models.IntegerField(default=60, verbose_name="Plazo Máximo (Meses)")
+    vigente = models.BooleanField(default=True, verbose_name="Promoción Vigente")
+
+    class Meta:
+        verbose_name = "Configuración Financiera BNA"
+        verbose_name_plural = "Configuraciones Financieras BNA"
+
+    def save(self, *args, **kwargs):
+        # Asegurar que solo haya un registro de configuración
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "Tasas Activas Banco Nación"

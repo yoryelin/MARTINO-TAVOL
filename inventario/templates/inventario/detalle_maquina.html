@@ -65,6 +65,56 @@
                         </div>
                     </div>
 
+                    <!-- Financiación Banco Nación -->
+                    {% if financiacion and financiacion.vigente %}
+                    <div class="card border-success bg-white rounded-4 mb-5 shadow p-4 text-center" style="border-width: 2px;">
+                        <div class="mb-3">
+                            <img src="{% static 'inventario/img/logoBNA.jpg' %}" alt="Banco Nación" style="height: 50px; object-fit: contain;">
+                        </div>
+                        <h4 class="fw-800 text-success mb-2 text-uppercase">Impulsamos tu Producción</h4>
+                        <p class="text-muted small mb-4">Adquirí tu maquinaria TAVOL con las líneas de crédito exclusivas para el Agro del Banco de la Nación Argentina. Tasas subsidiadas y plazos flexibles diseñados para el productor de hoy.</p>
+                        
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <div class="border border-success rounded p-2 bg-light">
+                                    <small class="d-block fw-bold text-success">LÍNEA DÓLARES</small>
+                                    <span class="fs-4 fw-800 text-dark">TNA {{ financiacion.tasa_usd }}%</span> <small class="d-block text-muted">hasta {{ financiacion.plazo_meses }} meses</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border border-success rounded p-2 bg-light">
+                                    <small class="d-block fw-bold text-success">LÍNEA PESOS</small>
+                                    <span class="fs-4 fw-800 text-dark">TNA {{ financiacion.tasa_pesos }}%</span> <small class="d-block text-muted">Tasa Fija / {{ financiacion.plazo_meses }} meses</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if m.precio_usd %}
+                        <div class="mt-4 pt-3 border-top border-success border-opacity-25 bg-success bg-opacity-10 rounded p-3">
+                            <p class="mb-1 text-success small fw-bold text-uppercase"><i class="fas fa-calculator me-1"></i> SIMULADOR DE CUOTAS (A {{ financiacion.plazo_meses }} Meses)</p>
+                            <h3 class="fw-800 text-dark mb-0">USD <span id="bna-cuota">--</span> <span class="fs-6 text-muted fw-normal">/mes</span></h3>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var precio = parseFloat("{{ m.precio_usd }}".replace(',', '.'));
+                                    var meses = parseInt("{{ financiacion.plazo_meses }}");
+                                    var tasa = parseFloat("{{ financiacion.tasa_usd }}".replace(',', '.'));
+                                    
+                                    var cuota;
+                                    if (tasa === 0) {
+                                        cuota = (precio / meses).toFixed(2);
+                                    } else {
+                                        var r = (tasa / 100) / 12;
+                                        cuota = (precio * r * Math.pow(1 + r, meses)) / (Math.pow(1 + r, meses) - 1);
+                                        cuota = cuota.toFixed(2);
+                                    }
+                                    document.getElementById('bna-cuota').innerText = cuota;
+                                });
+                            </script>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                     <!-- CTA Buttons -->
                     <div class="d-grid gap-3">
                         <button class="btn btn-tavol btn-lg py-3 fw-bold fs-5" 

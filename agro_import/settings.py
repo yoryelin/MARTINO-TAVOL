@@ -140,5 +140,17 @@ STORAGES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Configuración de Cloudinary para producción
+# Si existe la variable CLOUDINARY_URL, usamos Cloudinary para Media
+import os
+if os.environ.get('CLOUDINARY_URL'):
+    INSTALLED_APPS.insert(0, 'cloudinary_storage')
+    INSTALLED_APPS.insert(0, 'cloudinary')
+    
+    # Reemplazar FileSystemStorage con Cloudinary para Media
+    STORAGES["default"] = {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    }
+
 # Seguridad de producción para Render
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']

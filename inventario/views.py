@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Maquinaria, Consulta
+from .models import Maquinaria, Consulta, ConfiguracionFinanciera
 
 
 def home(request):
@@ -28,11 +28,24 @@ def detalle_maquina(request, pk):
     
     # Sugerir otras 3 unidades (excluyendo la actual)
     relacionados = Maquinaria.objects.exclude(pk=pk)[:3]
+    # Configuracion Financiera (Si la máquina es apta crédito)
+    financiacion = None
+    if maquina.apto_credito_bna:
+        financiacion = ConfiguracionFinanciera.objects.first()
+        if not financiacion:
+            # Mock con los datos simulados propuestos
+            class MockFinanciacion:
+                vigente = True
+                tasa_usd = 0
+                tasa_pesos = 19
+                plazo_meses = 60
+            financiacion = MockFinanciacion()
     
     context = {
         'm': maquina,
         'specs': specs_list,
-        'relacionados': relacionados
+        'relacionados': relacionados,
+        'financiacion': financiacion
     }
     return render(request, 'inventario/detalle_maquina.html', context)
 

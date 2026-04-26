@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.templatetags.static import static
-from .models import Maquinaria, Consulta
+from .models import Maquinaria, Consulta, ConfiguracionFinanciera
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
@@ -14,8 +14,8 @@ class ConsultaAdmin(admin.ModelAdmin):
 
 @admin.register(Maquinaria)
 class MaquinariaAdmin(admin.ModelAdmin):
-    list_display = ('thumbnail', 'marca', 'modelo', 'potencia_hp', 'estado_stock')
-    list_filter = ('marca', 'estado_stock', 'traccion')
+    list_display = ('thumbnail', 'marca', 'modelo', 'potencia_hp', 'estado_stock', 'apto_credito_bna')
+    list_filter = ('marca', 'estado_stock', 'traccion', 'apto_credito_bna')
     search_fields = ('marca', 'modelo', 'descripcion')
     readonly_fields = ('preview_imagen',)
     
@@ -29,6 +29,10 @@ class MaquinariaAdmin(admin.ModelAdmin):
         ('Contenido Visual y Comercial', {
             'fields': ('imagen', 'nombre_imagen_local', 'preview_imagen', 'descripcion', 'precio_usd'),
             'description': 'Aquí puedes subir la foto real o dejar que el sistema asigne una por defecto según el modelo.'
+        }),
+        ('Financiación', {
+            'fields': ('apto_credito_bna',),
+            'description': 'Habilita si la unidad aplica a líneas de crédito del Banco Nación.'
         }),
     )
 
@@ -64,3 +68,12 @@ class MaquinariaAdmin(admin.ModelAdmin):
             return static('inventario/img/tractores/tractor_cabin.png')
         return static('inventario/img/tractores/tractor_standard.png')
 
+@admin.register(ConfiguracionFinanciera)
+class ConfiguracionFinancieraAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'tasa_usd', 'tasa_pesos', 'plazo_meses', 'vigente')
+    
+    def has_add_permission(self, request):
+        # Solo permitir un registro de configuración
+        if self.model.objects.exists():
+            return False
+        return super().has_add_permission(request)

@@ -119,6 +119,15 @@
                         <small class="text-muted d-block mb-1 text-uppercase fw-bold">Unidad de interés:</small>
                         <span class="badge-unit" id="modalMachineName"></span>
                     </div>
+                    
+                    <!-- BNA Promo Banner -->
+                    <div id="bnaPromoBanner" class="alert border-success bg-success bg-opacity-10 mb-4 d-none" style="border-width: 2px; border-radius: 12px;">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="{% static 'inventario/img/logoBNA.jpg' %}" alt="BNA" height="25" class="me-2">
+                            <h6 class="fw-bold text-success mb-0 text-uppercase">¡Apto Crédito BNA!</h6>
+                        </div>
+                        <p class="mb-0 small text-success">Mencioná en tu consulta que te interesa financiar con el Banco Nación para acceder a <strong>tasas subsidiadas exclusivas</strong> para productores.</p>
+                    </div>
                     <form id="cotizacionForm">
                         <div class="row g-3">
                             <div class="col-md-12 mb-3">
@@ -234,14 +243,22 @@
             cotizacionModal.addEventListener('show.bs.modal', event => {
                 const button = event.relatedTarget;
                 const machineName = button.getAttribute('data-bs-machine');
+                const bnaApto = button.getAttribute('data-bs-bna');
                 const modalInfo = cotizacionModal.querySelector('#modalUnitInfo');
                 const nameSpan = cotizacionModal.querySelector('#modalMachineName');
+                const bnaBanner = cotizacionModal.querySelector('#bnaPromoBanner');
                 
                 if (machineName) {
                     modalInfo.classList.remove('d-none');
                     nameSpan.textContent = machineName;
                 } else {
                     modalInfo.classList.add('d-none');
+                }
+                
+                if (bnaApto === 'True') {
+                    bnaBanner.classList.remove('d-none');
+                } else {
+                    bnaBanner.classList.add('d-none');
                 }
 
                 // Reset form state
