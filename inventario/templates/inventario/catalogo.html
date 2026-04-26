@@ -21,9 +21,7 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             <div class="card card-tavol h-100">
                 <div class="card-img-container">
-                    {% if m.nombre_imagen_local %}
-                        <img src="{% static 'inventario/img/' %}{{ m.nombre_imagen_local }}" alt="{{ m.modelo }}">
-                    {% elif m.imagen %}
+                    {% if m.imagen %}
                         <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
                     {% else %}
                         {% if 'invernadero' in m.modelo|lower %}
@@ -61,20 +59,9 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-dark fw-bold" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#especificacionesModal"
-                                data-bs-marca="{{ m.marca|escape }}"
-                                data-bs-modelo="{{ m.modelo|escape }}"
-                                data-bs-hp="{{ m.potencia_hp }}"
-                                data-bs-traccion="{{ m.traccion|escape }}"
-                                data-bs-transmision="{{ m.transmision|escape }}"
-                                data-bs-motor="{{ m.motor|escape }}"
-                                data-bs-descripcion="{{ m.descripcion|escape }}"
-                                data-bs-extra="{{ m.especificaciones_extra|escape }}"
-                                data-bs-imagen="{% if m.imagen %}{{ m.imagen.url }}{% endif %}">
+                        <a href="{% url 'detalle_maquina' m.id %}" class="btn btn-outline-dark fw-bold">
                             Ver Ficha Técnica
-                        </button>
+                        </a>
                         <button class="btn btn-tavol" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#cotizacionModal" 

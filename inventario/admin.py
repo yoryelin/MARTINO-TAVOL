@@ -20,43 +20,20 @@ class MaquinariaAdmin(admin.ModelAdmin):
     readonly_fields = ('preview_imagen',)
     
     fieldsets = (
-        ('Identidad de Unidad', {
-            'fields': ('marca', 'modelo', 'año', 'estado_stock')
+        ('Información Principal', {
+            'fields': ('marca', 'modelo', 'año', 'potencia_hp', 'precio_usd', 'apto_credito_bna')
         }),
         ('Especificaciones Técnicas', {
-            'fields': (('potencia_hp', 'traccion'), ('motor', 'transmision'), 'especificaciones_extra')
+            'fields': ('traccion', 'transmision', 'motor', 'descripcion', 'especificaciones_extra')
         }),
-        ('Contenido Visual y Comercial', {
-            'fields': ('imagen', 'nombre_imagen_local', 'preview_imagen', 'descripcion', 'precio_usd'),
-            'description': 'Aquí puedes subir la foto real o dejar que el sistema asigne una por defecto según el modelo.'
-        }),
-        ('Financiación', {
-            'fields': ('apto_credito_bna',),
-            'description': 'Habilita si la unidad aplica a líneas de crédito del Banco Nación.'
+        ('Imágenes y Stock', {
+            'fields': ('estado_stock', 'imagen', 'nombre_imagen_local', 'preview_imagen')
         }),
     )
 
-    def thumbnail(self, obj):
-        url = self._get_smart_image_url(obj)
-        return mark_safe(f'<img src="{url}" width="60" style="border-radius: 5px; border: 1px solid #ddd; display: block;" />')
-    thumbnail.short_description = "Vista"
-
-    def preview_imagen(self, obj):
-        if not obj.pk: return ""
-        url = self._get_smart_image_url(obj)
-        return mark_safe(f'<div><img src="{url}" width="350" style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid #eee;" /><p style="margin-top:10px; color:#666; font-style: italic;">Previsualización actual del equipo</p></div>')
-    preview_imagen.short_description = "Vista Previa"
-
-    def _get_smart_image_url(self, obj):
-        # 1. Imagen local estática vinculada manualmente (Opción A)
-        if getattr(obj, 'nombre_imagen_local', None):
-            return static(f'inventario/img/{obj.nombre_imagen_local}')
-            
-        # 2. Lógica de imagen subida desde el Admin
+    def get_imagen_url(self, obj):
         if obj.imagen:
             return obj.imagen.url
-        
-        # Fallback a imágenes estáticas según categoría
         modelo_l = obj.modelo.lower()
         if 'invernadero' in modelo_l:
             return static('inventario/img/tractores/tractor_greenhouse.png')
@@ -67,6 +44,20 @@ class MaquinariaAdmin(admin.ModelAdmin):
         elif 'cabina' in modelo_l:
             return static('inventario/img/tractores/tractor_cabin.png')
         return static('inventario/img/tractores/tractor_standard.png')
+
+    def thumbnail(self, obj):
+        url = self.get_imagen_url(obj)
+        if url:
+            return mark_safe(f'<img src="{url}" width="50" height="50" style="object-fit: contain; border-radius: 5px; background: #fff; padding: 2px;" />')
+        return "Sin imagen"
+    thumbnail.short_description = 'Imagen'
+
+    def preview_imagen(self, obj):
+        url = self.get_imagen_url(obj)
+        if url:
+            return mark_safe(f'<img src="{url}" width="300" style="object-fit: contain; border-radius: 10px; background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6;" />')
+        return "Guarde el modelo para ver la imagen generada automáticamente"
+    preview_imagen.short_description = 'Vista Previa'
 
 @admin.register(ConfiguracionFinanciera)
 class ConfiguracionFinancieraAdmin(admin.ModelAdmin):

@@ -103,6 +103,18 @@
                     <div class="card-img-container">
                         {% if m.imagen %}
                             <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
+                        {% else %}
+                            {% if 'invernadero' in m.modelo|lower %}
+                                <img src="{% static 'inventario/img/tractores/tractor_greenhouse.png' %}" alt="{{ m.modelo }}">
+                            {% elif 'pala' in m.modelo|lower %}
+                                <img src="{% static 'inventario/img/tractores/tractor_loader.png' %}" alt="{{ m.modelo }}">
+                            {% elif 'dual' in m.modelo|lower %}
+                                <img src="{% static 'inventario/img/tractores/tractor_dual.png' %}" alt="{{ m.modelo }}">
+                            {% elif 'cabina' in m.modelo|lower %}
+                                <img src="{% static 'inventario/img/tractores/tractor_cabin.png' %}" alt="{{ m.modelo }}">
+                            {% else %}
+                                <img src="{% static 'inventario/img/tractores/tractor_standard.png' %}" alt="{{ m.modelo }}">
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="card-body p-4">
