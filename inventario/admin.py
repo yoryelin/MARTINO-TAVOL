@@ -5,9 +5,9 @@ from .models import Maquinaria, Consulta, ConfiguracionFinanciera
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
-    list_display = ('codigo_seguimiento', 'nombre', 'empresa', 'rubro', 'telefono', 'fecha_consulta')
-    list_filter = ('rubro', 'maquina_interes', 'fecha_consulta')
-    search_fields = ('codigo_seguimiento', 'nombre', 'empresa', 'telefono')
+    list_display = ('codigo_seguimiento', 'nombre', 'estado', 'empresa', 'rubro', 'telefono', 'fecha_consulta')
+    list_filter = ('estado', 'rubro', 'maquina_interes', 'fecha_consulta')
+    search_fields = ('codigo_seguimiento', 'nombre', 'empresa', 'telefono', 'observaciones_internas')
     readonly_fields = ('codigo_seguimiento', 'fecha_consulta')
     date_hierarchy = 'fecha_consulta'
     ordering = ('-fecha_consulta',)
@@ -32,18 +32,7 @@ class MaquinariaAdmin(admin.ModelAdmin):
     )
 
     def get_imagen_url(self, obj):
-        if obj.imagen:
-            return obj.imagen.url
-        modelo_l = obj.modelo.lower()
-        if 'invernadero' in modelo_l:
-            return static('inventario/img/tractores/tractor_greenhouse.png')
-        elif 'pala' in modelo_l:
-            return static('inventario/img/tractores/tractor_loader.png')
-        elif 'dual' in modelo_l:
-            return static('inventario/img/tractores/tractor_dual.png')
-        elif 'cabina' in modelo_l:
-            return static('inventario/img/tractores/tractor_cabin.png')
-        return static('inventario/img/tractores/tractor_standard.png')
+        return obj.imagen_url_segura
 
     def thumbnail(self, obj):
         url = self.get_imagen_url(obj)

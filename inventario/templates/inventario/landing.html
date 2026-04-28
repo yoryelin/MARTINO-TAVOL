@@ -101,21 +101,7 @@
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <div class="card card-tavol h-100">
                     <div class="card-img-container">
-                        {% if m.imagen %}
-                            <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
-                        {% else %}
-                            {% if 'invernadero' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_greenhouse.png' %}" alt="{{ m.modelo }}">
-                            {% elif 'pala' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_loader.png' %}" alt="{{ m.modelo }}">
-                            {% elif 'dual' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_dual.png' %}" alt="{{ m.modelo }}">
-                            {% elif 'cabina' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_cabin.png' %}" alt="{{ m.modelo }}">
-                            {% else %}
-                                <img src="{% static 'inventario/img/tractores/tractor_standard.png' %}" alt="{{ m.modelo }}">
-                            {% endif %}
-                        {% endif %}
+                        <img src="{{ m.imagen_url_segura }}" alt="{{ m.modelo }}">
                     </div>
                     <div class="card-body p-4">
                         <h4 class="machine-title h5">{{ m.modelo }}</h4>

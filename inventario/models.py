@@ -33,6 +33,23 @@ class Maquinaria(models.Model):
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.potencia_hp} HP)"
 
+    @property
+    def imagen_url_segura(self):
+        from django.templatetags.static import static
+        if self.imagen:
+            return self.imagen.url
+        modelo_l = self.modelo.lower()
+        if 'invernadero' in modelo_l:
+            return static('inventario/img/tractores/tractor_greenhouse.png')
+        elif 'pala' in modelo_l:
+            return static('inventario/img/tractores/tractor_loader.png')
+        elif 'dual' in modelo_l:
+            return static('inventario/img/tractores/tractor_dual.png')
+        elif 'cabina' in modelo_l:
+            return static('inventario/img/tractores/tractor_cabin.png')
+        return static('inventario/img/tractores/tractor_standard.png')
+
+
 
 class Consulta(models.Model):
     codigo_seguimiento = models.CharField(max_length=20, unique=True, editable=False, verbose_name="N° Seguimiento", null=True)
@@ -42,8 +59,15 @@ class Consulta(models.Model):
     rubro = models.CharField(max_length=100, blank=True, null=True, verbose_name="Rubro / Sector")
     telefono = models.CharField(max_length=50, verbose_name="Teléfono / WhatsApp")
     mensaje = models.TextField(blank=True, verbose_name="Consulta Puntual")
+    ESTADO_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('contactado', 'Contactado'),
+        ('cerrado', 'Cerrado'),
+    ]
     maquina_interes = models.ForeignKey(
         Maquinaria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Unidad de Interés")
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente', verbose_name="Estado de Gestión")
+    observaciones_internas = models.TextField(blank=True, verbose_name="Observaciones Internas (Vendedores)")
     fecha_consulta = models.DateTimeField(auto_now_add=True)
 
     class Meta:

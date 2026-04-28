@@ -21,21 +21,7 @@
             <div class="col-lg-7" data-aos="fade-right">
                 <div class="sticky-top" style="top: 100px;">
                     <div class="product-detail-img shadow-lg rounded-4 overflow-hidden border mb-2">
-                        {% if m.imagen %}
-                            <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                        {% else %}
-                            {% if 'invernadero' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_greenhouse.png' %}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                            {% elif 'pala' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_loader.png' %}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                            {% elif 'dual' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_dual.png' %}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                            {% elif 'cabina' in m.modelo|lower %}
-                                <img src="{% static 'inventario/img/tractores/tractor_cabin.png' %}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                            {% else %}
-                                <img src="{% static 'inventario/img/tractores/tractor_standard.png' %}" alt="{{ m.modelo }}" class="img-fluid w-100">
-                            {% endif %}
-                        {% endif %}
+                        <img src="{{ m.imagen_url_segura }}" alt="{{ m.modelo }}" class="img-fluid w-100">
                     </div>
                     <p class="text-muted small text-center" style="font-size: 0.7rem;">
                         <i class="fas fa-info-circle me-1"></i> Imagen ilustrativa. El equipamiento real puede variar según la configuración.
@@ -191,9 +177,7 @@
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
                 <div class="card card-tavol h-100">
                     <div class="card-img-container" style="height: 200px;">
-                        {% if rel.imagen %}
-                            <img src="{{ rel.imagen.url }}" alt="{{ rel.modelo }}">
-                        {% endif %}
+                        <img src="{{ rel.imagen_url_segura }}" alt="{{ rel.modelo }}">
                     </div>
                     <div class="card-body p-4">
                         <h4 class="machine-title h5">{{ rel.modelo }}</h4>

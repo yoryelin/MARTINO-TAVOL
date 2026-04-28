@@ -21,21 +21,7 @@
         <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             <div class="card card-tavol h-100">
                 <div class="card-img-container">
-                    {% if m.imagen %}
-                        <img src="{{ m.imagen.url }}" alt="{{ m.modelo }}">
-                    {% else %}
-                        {% if 'invernadero' in m.modelo|lower %}
-                            <img src="{% static 'inventario/img/tractores/tractor_greenhouse.png' %}" alt="{{ m.modelo }}">
-                        {% elif 'pala' in m.modelo|lower %}
-                            <img src="{% static 'inventario/img/tractores/tractor_loader.png' %}" alt="{{ m.modelo }}">
-                        {% elif 'dual' in m.modelo|lower %}
-                            <img src="{% static 'inventario/img/tractores/tractor_dual.png' %}" alt="{{ m.modelo }}">
-                        {% elif 'cabina' in m.modelo|lower %}
-                            <img src="{% static 'inventario/img/tractores/tractor_cabin.png' %}" alt="{{ m.modelo }}">
-                        {% else %}
-                            <img src="{% static 'inventario/img/tractores/tractor_standard.png' %}" alt="{{ m.modelo }}">
-                        {% endif %}
-                    {% endif %}
+                    <img src="{{ m.imagen_url_segura }}" alt="{{ m.modelo }}">
                 </div>
                 <div class="card-body p-4">
                     <div class="mb-2 d-flex justify-content-between align-items-start">
@@ -59,9 +45,20 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="{% url 'detalle_maquina' m.id %}" class="btn btn-outline-dark fw-bold">
+                        <button class="btn btn-outline-dark fw-bold" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#especificacionesModal"
+                                data-bs-marca="{{ m.marca|escape }}"
+                                data-bs-modelo="{{ m.modelo|escape }}"
+                                data-bs-hp="{{ m.potencia_hp }}"
+                                data-bs-traccion="{{ m.traccion }}"
+                                data-bs-motor="{{ m.motor|escape }}"
+                                data-bs-transmision="{{ m.transmision|escape }}"
+                                data-bs-descripcion="{{ m.descripcion|escape }}"
+                                data-bs-extra="{{ m.especificaciones_extra|escape }}"
+                                data-bs-imagen="{{ m.imagen_url_segura }}">
                             Ver Ficha Técnica
-                        </a>
+                        </button>
                         <button class="btn btn-tavol" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#cotizacionModal" 
@@ -188,25 +185,11 @@
                 extraContainer.classList.add('d-none');
             }
             
-            const modelo = button.getAttribute('data-bs-modelo').toLowerCase();
             const imgUrl = button.getAttribute('data-bs-imagen');
             const imgElement = document.getElementById('modalImg');
             
-            if (imgUrl && imgUrl !== "") {
+            if (imgUrl) {
                 imgElement.src = imgUrl;
-            } else {
-                // Lógica de imágenes inteligentes por categoría
-                if (modelo.includes('invernadero')) {
-                    imgElement.src = "{% static 'inventario/img/tractores/tractor_greenhouse.png' %}";
-                } else if (modelo.includes('pala')) {
-                    imgElement.src = "{% static 'inventario/img/tractores/tractor_loader.png' %}";
-                } else if (modelo.includes('dual')) {
-                    imgElement.src = "{% static 'inventario/img/tractores/tractor_dual.png' %}";
-                } else if (modelo.includes('cabina')) {
-                    imgElement.src = "{% static 'inventario/img/tractores/tractor_cabin.png' %}";
-                } else {
-                    imgElement.src = "{% static 'inventario/img/tractores/tractor_standard.png' %}";
-                }
             }
         });
     }

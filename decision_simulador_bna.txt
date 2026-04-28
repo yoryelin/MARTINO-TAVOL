@@ -1,0 +1,21 @@
+INFORME DE CONSULTA: CÁLCULO DEL SIMULADOR DE CUOTAS (BANCO NACIÓN)
+===================================================================
+
+SITUACIÓN DEL SIMULADOR:
+------------------------
+Actualmente, el simulador de cuotas de la página web (ubicado en el catálogo y en el detalle de las maquinarias) arroja una cuota de USD 813.30 para un capital de USD 48,798 a 60 meses.
+
+Este cálculo matemático es correcto (48,798 / 60 = 813.30) porque está aplicando una tasa de interés del 0%.
+
+¿Por qué ocurre esto?
+Porque al estar el precio original de la maquinaria publicado en DÓLARES, el simulador web utiliza automáticamente la tasa correspondiente a la "Línea Dólares" del Banco Nación para evitar mezclar monedas. Actualmente, la empresa tiene configurada esa tasa en 0.00% desde el panel de administración. La tasa del 19% corresponde a la "Línea en Pesos".
+
+DECISIÓN DE NEGOCIO APLICADA:
+-----------------------------
+Para mantener la interfaz pública lo más limpia, directa y libre de confusiones posible para el **cliente final (el comprador de la maquinaria)**, se mantendrá el simulador operando íntegramente en moneda Dólar.
+
+Si en el futuro el banco modifica la tasa de interés en dólares (ej: del 0% al 2%), un Administrador o Vendedor autorizado de **la empresa (nuestro cliente del sistema)** simplemente actualizará ese número en el panel interno y la página web recalculará la cuota en dólares de forma automática para los futuros visitantes.
+
+ACLARACIÓN COMERCIAL IMPORTANTE (TASA FIJA):
+--------------------------------------------
+Es importante destacar frente a los **clientes compradores** que el simulador refleja las condiciones actuales. Sin embargo, la tasa fijada y acordada al momento de cerrar una operación comercial es la que quedará vigente para todo el plazo de amortización (los 60 meses), independientemente de que las tasas generales del Banco Nación varíen hacia arriba o hacia abajo en el futuro. Es decir, el **productor/comprador** congela sus condiciones al momento de la firma.

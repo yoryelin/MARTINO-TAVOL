@@ -13,3 +13,6 @@ python manage.py migrate
 
 # Cargar catálogo de maquinaria (Seed)
 python seed_martino_tavol.py
+
+# Configurar roles y permisos (RBAC)
+python setup_roles.py
