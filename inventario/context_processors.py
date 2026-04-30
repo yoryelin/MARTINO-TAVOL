@@ -18,6 +18,9 @@ def admin_metrics(request):
         consultas_contactadas = Consulta.objects.filter(estado='contactado').count()
         consultas_cerradas = Consulta.objects.filter(estado='cerrado').count()
         
+        # Consultas recientes para el Dashboard
+        consultas_recientes = Consulta.objects.order_by('-fecha_consulta')[:5]
+        
         return {
             'metrics': {
                 'total_maquinas': total_maquinas,
@@ -28,6 +31,7 @@ def admin_metrics(request):
                 'consultas_pendientes': consultas_pendientes,
                 'consultas_contactadas': consultas_contactadas,
                 'consultas_cerradas': consultas_cerradas,
-            }
+            },
+            'consultas_recientes': consultas_recientes
         }
     return {}
