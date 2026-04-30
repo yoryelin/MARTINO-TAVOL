@@ -27,7 +27,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*+rnmjsyso4s5ifdq@l-+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*'] # En producción deberías restringirlo a tu dominio de Render
+ALLOWED_HOSTS = [
+    'martino-tavol.onrender.com', 
+    'martinoagromaquinarias.com.ar', 
+    'www.martinoagromaquinarias.com.ar',
+    'localhost', 
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -154,4 +160,8 @@ if os.environ.get('CLOUDINARY_URL'):
     }
 
 # Seguridad de producción para Render
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+    'https://martinoagromaquinarias.com.ar',
+    'https://www.martinoagromaquinarias.com.ar'
+]
