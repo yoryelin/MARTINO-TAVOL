@@ -175,6 +175,11 @@
             <div class="metric-value">{{ metrics.total_maquinas }}</div>
             <div class="metric-label">Total Unidades</div>
         </div>
+        <div class="metric-card warning">
+            <div class="metric-value">{{ metrics.bna_usd }}%</div>
+            <div class="metric-label">Tasa BNA (USD)</div>
+            <div style="font-size: 0.7rem; color: #6c757d; margin-top: 5px;">PESOS: {{ metrics.bna_pesos }}%</div>
+        </div>
     </div>
 {% endif %}
 

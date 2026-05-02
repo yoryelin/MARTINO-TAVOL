@@ -1,3 +1,12 @@
+# =================================================================
+# SCRIPT NEUTRALIZADO - SOLO PARA REFERENCIA TÉCNICA
+# =================================================================
+# Este script fue utilizado durante el desarrollo para pruebas.
+# NO EJECUTAR en producción. Los precios y tasas deben ser 
+# gestionados exclusivamente desde el Panel de Administración.
+# =================================================================
+
+"""
 import os
 import django
 
@@ -28,3 +37,7 @@ try:
 
 except Exception as e:
     print(f"Error: {e}")
+"""
+
+if __name__ == "__main__":
+    print("Script neutralizado. Consulte el código fuente para referencia.")

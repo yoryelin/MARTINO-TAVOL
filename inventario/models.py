@@ -22,7 +22,7 @@ class Maquinaria(models.Model):
         max_digits=12, decimal_places=2, null=True, blank=True)
     imagen = models.ImageField(upload_to='maquinaria/', null=True, blank=True)
     nombre_imagen_local = models.CharField(max_length=100, blank=True, null=True, verbose_name="Nombre Imagen Local", help_text="Ej: TL1404.png. Debe estar en inventario/static/inventario/img/")
-    apto_credito_bna = models.BooleanField(default=True, verbose_name="Apto Crédito BNA")
+    apto_credito_bna = models.BooleanField(default=False, verbose_name="Apto Crédito BNA")
     descripcion = models.TextField(blank=True)
     especificaciones_extra = models.TextField(
         blank=True, verbose_name="Especificaciones Técnicas")
@@ -36,8 +36,19 @@ class Maquinaria(models.Model):
     @property
     def imagen_url_segura(self):
         from django.templatetags.static import static
+        
+        # 1. Prioridad: Imagen subida por el admin
         if self.imagen:
             return self.imagen.url
+            
+        # 2. Segunda prioridad: Nombre de imagen local especificado (en static/inventario/img/)
+        if self.nombre_imagen_local:
+            # Si el nombre ya incluye la subcarpeta tractores/ lo usamos, sino asumimos la base
+            if 'tractores/' in self.nombre_imagen_local:
+                return static(f'inventario/img/{self.nombre_imagen_local}')
+            return static(f'inventario/img/tractores/{self.nombre_imagen_local}')
+
+        # 3. Fallback: Lógica por palabras clave en el modelo
         modelo_l = self.modelo.lower()
         if 'invernadero' in modelo_l:
             return static('inventario/img/tractores/tractor_greenhouse.png')
@@ -88,7 +99,7 @@ class Consulta(models.Model):
 
 class ConfiguracionFinanciera(models.Model):
     tasa_usd = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, verbose_name="Tasa BNA Dólares (%)")
-    tasa_pesos = models.DecimalField(max_digits=5, decimal_places=2, default=19.00, verbose_name="Tasa BNA Pesos (%)")
+    tasa_pesos = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, verbose_name="Tasa BNA Pesos (%)")
     plazo_meses = models.IntegerField(default=60, verbose_name="Plazo Máximo (Meses)")
     vigente = models.BooleanField(default=True, verbose_name="Promoción Vigente")
 

@@ -1,4 +1,4 @@
-from inventario.models import Maquinaria, Consulta
+from inventario.models import Maquinaria, Consulta, ConfiguracionFinanciera
 
 def admin_metrics(request):
     # Solo ejecutarse si estamos en el panel de administración
@@ -6,6 +6,9 @@ def admin_metrics(request):
         return {}
     
     if request.user.is_authenticated and request.user.is_staff:
+        # Tasas BNA
+        bna = ConfiguracionFinanciera.objects.first()
+        
         # Métricas para el Operador (Inventario)
         total_maquinas = Maquinaria.objects.count()
         maquinas_disponibles = Maquinaria.objects.filter(estado_stock='disponible').count()
@@ -31,6 +34,9 @@ def admin_metrics(request):
                 'consultas_pendientes': consultas_pendientes,
                 'consultas_contactadas': consultas_contactadas,
                 'consultas_cerradas': consultas_cerradas,
+                'bna_usd': bna.tasa_usd if bna else 0,
+                'bna_pesos': bna.tasa_pesos if bna else 0,
+                'bna_vigente': bna.vigente if bna else False,
             },
             'consultas_recientes': consultas_recientes
         }

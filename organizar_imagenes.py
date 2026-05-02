@@ -1,3 +1,11 @@
+# =================================================================
+# SCRIPT NEUTRALIZADO - SOLO PARA REFERENCIA TÉCNICA
+# =================================================================
+# Este script se utilizó para mover imágenes desde rutas temporales
+# a la carpeta de estáticos del proyecto. Ya no es necesario.
+# =================================================================
+
+"""
 import os
 import shutil
 from pathlib import Path
@@ -41,3 +49,7 @@ def organizar():
 
 if __name__ == '__main__':
     organizar()
+"""
+
+if __name__ == "__main__":
+    print("Script neutralizado. Las imágenes ya residen en la carpeta static/inventario/img/tractores/")

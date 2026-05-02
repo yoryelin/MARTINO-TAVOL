@@ -32,14 +32,8 @@ def detalle_maquina(request, pk):
     financiacion = None
     if maquina.apto_credito_bna:
         financiacion = ConfiguracionFinanciera.objects.first()
-        if not financiacion:
-            # Mock con los datos simulados propuestos
-            class MockFinanciacion:
-                vigente = True
-                tasa_usd = 0
-                tasa_pesos = 19
-                plazo_meses = 60
-            financiacion = MockFinanciacion()
+        # Si no existe configuración en la BD, no enviamos nada al contexto
+        # para que el cliente sea el único responsable de activarlo.
     
     context = {
         'm': maquina,
