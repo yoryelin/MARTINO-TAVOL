@@ -1,7 +1,17 @@
 {% extends 'inventario/base.html' %}
 {% load static %}
 
-{% block title %}MARTINO | {{ m.marca }} {{ m.modelo }} | Especificaciones{% endblock %}
+{% block title %}Tractor {{ m.marca }} {{ m.modelo }} ({{ m.potencia_hp }} HP) | Martino Agromaquinarias{% endblock %}
+
+{% block meta_description %}Conocé el tractor {{ m.marca }} {{ m.modelo }} de {{ m.potencia_hp }} HP en Martino Agromaquinarias. Unidades con financiación BNA y servicio técnico especializado en Chajarí, Entre Ríos.{% endblock %}
+
+{% block og_title %}Tractor {{ m.marca }} {{ m.modelo }} ({{ m.potencia_hp }} HP){% endblock %}
+{% block og_description %}Unidad {{ m.traccion }} con potencia de {{ m.potencia_hp }} HP. Consultá por financiación exclusiva BNA en Martino Agromaquinarias.{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ m.imagen_url_segura }}{% endblock %}
+
+{% block twitter_title %}Tractor {{ m.marca }} {{ m.modelo }}{% endblock %}
+{% block twitter_description %}Potencia de {{ m.potencia_hp }} HP y respaldo técnico garantizado.{% endblock %}
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{{ m.imagen_url_segura }}{% endblock %}
 
 {% block content %}
 <nav aria-label="breadcrumb" class="bg-light py-3 border-bottom">

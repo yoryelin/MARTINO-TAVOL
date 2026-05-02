@@ -4,7 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}TAVOL ARGENTINA | Maquinaria Pesada{% endblock %}</title>
+    <title>{% block title %}MARTINO AGROMAQUINARIAS | Potencia y Tecnología para el Campo{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Comercialización de maquinaria agrícola TAVOL. Tractores de alta performance con financiación exclusiva del Banco Nación. Soporte técnico en Chajarí, Entre Ríos.{% endblock %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}MARTINO AGROMAQUINARIAS | Maquinaria Agrícola{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Especialistas en tractores TAVOL y soporte técnico especializado para el productor argentino.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'inventario/img/martino_logo.png' %}{% endblock %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta property="twitter:title" content="{% block twitter_title %}MARTINO AGROMAQUINARIAS{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Tractores de alta performance y servicio técnico especializado.{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'inventario/img/martino_logo.png' %}{% endblock %}">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
