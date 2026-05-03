@@ -16,3 +16,6 @@ python seed_martino_tavol.py
 
 # Configurar roles y permisos (RBAC)
 python setup_roles.py
+
+# Crear superusuario automáticamente
+python create_admin.py
