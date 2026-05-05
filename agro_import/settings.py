@@ -147,6 +147,10 @@ STORAGES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Variables de compatibilidad para Django moderno y librerías antiguas
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 # Configuración de Cloudinary para producción
 # Si existe la variable CLOUDINARY_URL, usamos Cloudinary para Media
 import os
@@ -158,6 +162,8 @@ if os.environ.get('CLOUDINARY_URL'):
     STORAGES["default"] = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     }
+    # Sobrescribir con Cloudinary si la URL existe
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Seguridad de producción para Render
 CSRF_TRUSTED_ORIGINS = [
