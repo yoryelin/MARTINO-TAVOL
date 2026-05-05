@@ -155,14 +155,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # Si existe la variable CLOUDINARY_URL, usamos Cloudinary para Media
 import os
 if os.environ.get('CLOUDINARY_URL'):
-    INSTALLED_APPS.insert(0, 'cloudinary_storage')
+    # Solo añadimos 'cloudinary' (necesario para el API), 
+    # pero NO 'cloudinary_storage' a INSTALLED_APPS para no romper collectstatic.
     INSTALLED_APPS.insert(0, 'cloudinary')
     
-    # Reemplazar FileSystemStorage con Cloudinary para Media
+    # Configurar el almacenamiento de Media para usar Cloudinary
     STORAGES["default"] = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     }
-    # Sobrescribir con Cloudinary si la URL existe
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Seguridad de producción para Render
