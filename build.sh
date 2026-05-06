@@ -19,3 +19,6 @@ python setup_roles.py
 
 # Crear superusuario automáticamente
 python create_admin.py
+
+# Sincronizar catálogo inicial (Temporal para Free Tier)
+python sync_production.py
