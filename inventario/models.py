@@ -118,3 +118,14 @@ class ConfiguracionFinanciera(models.Model):
 
     def __str__(self):
         return "Tasas Activas Banco Nación"
+
+class EstadisticaVisita(models.Model):
+    fecha = models.DateField(auto_now_add=True, unique=True, verbose_name="Fecha")
+    contador = models.PositiveIntegerField(default=0, verbose_name="Visitas del Día")
+
+    class Meta:
+        verbose_name = "Estadística de Visita"
+        verbose_name_plural = "Estadísticas de Visitas"
+
+    def __str__(self):
+        return f"Visitas el {self.fecha}: {self.contador}"

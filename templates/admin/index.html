@@ -180,6 +180,14 @@
             <div class="metric-label">Tasa BNA (USD)</div>
             <div style="font-size: 0.7rem; color: #6c757d; margin-top: 5px;">PESOS: {{ metrics.bna_pesos }}%</div>
         </div>
+        <div class="metric-card" style="border-left-color: #6f42c1;">
+            <div class="metric-value">{{ metrics.visitas_hoy }}</div>
+            <div class="metric-label">Visitas Web (Hoy)</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #6f42c1;">
+            <div class="metric-value">{{ metrics.total_visitas }}</div>
+            <div class="metric-label">Visitas Web (Total)</div>
+        </div>
     </div>
 {% endif %}
 

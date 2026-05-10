@@ -1,20 +1,32 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from .models import Maquinaria, Consulta, ConfiguracionFinanciera
+from django.utils import timezone
+from .models import Maquinaria, Consulta, ConfiguracionFinanciera, EstadisticaVisita
+
+def registrar_visita():
+    # Helper para incrementar el contador diario
+    hoy = timezone.now().date()
+    # Usamos get_or_create para crear el registro del día si no existe
+    stat, created = EstadisticaVisita.objects.get_or_create(fecha=hoy)
+    stat.contador += 1
+    stat.save()
 
 
 def home(request):
+    registrar_visita()
     featured = Maquinaria.objects.all()[:3]
     return render(request, 'inventario/landing.html', {'featured': featured})
 
 
 def catalogo(request):
+    registrar_visita()
     maquinas = Maquinaria.objects.all()
     return render(request, 'inventario/catalogo.html', {'maquinas': maquinas})
 
 
 def detalle_maquina(request, pk):
+    registrar_visita()
     maquina = get_object_or_404(Maquinaria, pk=pk)
     
     # Procesar especificaciones_extra (Clave: Valor) para la tabla
