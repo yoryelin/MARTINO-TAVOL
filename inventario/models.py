@@ -33,6 +33,10 @@ class Maquinaria(models.Model):
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.potencia_hp} HP)"
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('detalle_maquina', args=[str(self.id)])
+
     @property
     def imagen_url_segura(self):
         from django.templatetags.static import static
