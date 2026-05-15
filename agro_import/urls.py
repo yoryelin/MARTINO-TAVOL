@@ -20,7 +20,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('sistema-martino/', admin.site.urls),
     # 2. Conectamos la raíz del sitio con las URLs de tu app 'inventario'
     path('', include('inventario.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
