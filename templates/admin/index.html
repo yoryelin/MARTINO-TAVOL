@@ -124,7 +124,7 @@
                 <td><strong>{{ c.nombre }}</strong><br><small>{{ c.telefono }}</small></td>
                 <td>{{ c.maquina_interes.modelo|default:"General" }}</td>
                 <td><span class="status-badge status-{{ c.estado }}">{{ c.get_estado_display }}</span></td>
-                <td><a href="/admin/inventario/consulta/{{ c.id }}/change/" class="button" style="background: #212529; padding: 5px 12px; font-size: 0.8rem;">Gestionar</a></td>
+                <td><a href="/sistema-martino/inventario/consulta/{{ c.id }}/change/" class="button" style="background: #212529; padding: 5px 12px; font-size: 0.8rem;">Gestionar</a></td>
             </tr>
             {% empty %}
             <tr>
@@ -134,7 +134,7 @@
         </tbody>
     </table>
     <div style="margin-top: 15px; text-align: right;">
-        <a href="/admin/inventario/consulta/" style="font-weight: bold; color: #dc3545; text-decoration: none;">Ver todas las consultas →</a>
+        <a href="/sistema-martino/inventario/consulta/" style="font-weight: bold; color: #dc3545; text-decoration: none;">Ver todas las consultas →</a>
     </div>
 
 {% elif perms.inventario.change_maquinaria and not perms.inventario.change_consulta %}

@@ -4,7 +4,7 @@ from inventario.models import Maquinaria, Consulta, ConfiguracionFinanciera, Est
 
 def admin_metrics(request):
     # Solo ejecutarse si estamos en el panel de administración
-    if not request.path.startswith('/admin/'):
+    if not (request.path.startswith('/admin/') or request.path.startswith('/sistema-martino/')):
         return {}
     
     if request.user.is_authenticated and request.user.is_staff:
