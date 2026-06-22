@@ -130,20 +130,21 @@
     }
     #mundial-text {
         position: fixed;
-        top: 35%;
+        top: 30%;
         left: -800px;
         font-size: 5rem;
         font-weight: 900;
         font-family: 'Montserrat', 'Arial Black', sans-serif;
         text-transform: uppercase;
-        white-space: nowrap;
+        text-align: center;
+        line-height: 1.1;
         z-index: 9999;
         animation: flyAcrossText 8s linear forwards, blinkColors 0.8s infinite;
         pointer-events: none;
     }
 </style>
 
-<div id="mundial-text">¡VAMOS ARGENTINA!</div>
+<div id="mundial-text">¡VAMOS<br>ARGENTINA!</div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
