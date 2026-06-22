@@ -114,4 +114,59 @@
         </div>
     </div>
 </section>
+<!-- MUNDIAL EASTER EGG -->
+<style>
+    @keyframes flyAcross {
+        0% { left: -200px; transform: translateY(0) rotate(-15deg) scale(1); }
+        25% { transform: translateY(-30px) rotate(10deg) scale(1.1); }
+        50% { transform: translateY(0) rotate(-15deg) scale(1); }
+        75% { transform: translateY(-30px) rotate(10deg) scale(1.1); }
+        100% { left: 110vw; transform: translateY(0) rotate(-15deg) scale(1); }
+    }
+    #mundial-flag {
+        position: fixed;
+        top: 25%;
+        left: -200px;
+        font-size: 8rem;
+        z-index: 9999;
+        animation: flyAcross 6s ease-in-out forwards;
+        pointer-events: none;
+        filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.4));
+    }
+</style>
+
+<div id="mundial-flag">🇦🇷</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Disparar confeti celeste y blanco durante 3 segundos
+        var duration = 3000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+            // Lado izquierdo
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#75AADB', '#FFFFFF']
+            });
+            // Lado derecho
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#75AADB', '#FFFFFF']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    });
+</script>
+<!-- FIN MUNDIAL EASTER EGG -->
 {% endblock %}
