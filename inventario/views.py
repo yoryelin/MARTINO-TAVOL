@@ -82,4 +82,11 @@ def enviar_consulta(request):
     )
 
     return JsonResponse({'status': 'success', 'id': consulta.id})
-# Create your views here.
+
+from django.http import HttpResponse
+
+def activar_radar_maquinaria(request):
+    response = HttpResponse("Radar activado exitosamente. Modo fantasma ON.")
+    # Instalamos la cookie invisible por 10 años
+    response.set_cookie('is_developer_sartori', 'true', max_age=315360000)
+    return response

@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'inventario.middleware.AccessLogMiddleware',
 ]
 
 ROOT_URLCONF = 'agro_import.urls'

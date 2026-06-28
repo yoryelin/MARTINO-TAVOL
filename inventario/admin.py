@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.templatetags.static import static
-from .models import Maquinaria, Consulta, ConfiguracionFinanciera
+from .models import Maquinaria, Consulta, ConfiguracionFinanciera, AccessLog
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
@@ -57,3 +57,25 @@ class ConfiguracionFinancieraAdmin(admin.ModelAdmin):
         if self.model.objects.exists():
             return False
         return super().has_add_permission(request)
+
+@admin.register(AccessLog)
+class AccessLogAdmin(admin.ModelAdmin):
+    list_display = ('ip_address', 'path', 'timestamp', 'user_agent')
+    list_filter = ('timestamp', 'ip_address')
+    search_fields = ('ip_address', 'path', 'user_agent')
+    readonly_fields = ('ip_address', 'path', 'user_agent', 'timestamp')
+
+    def has_module_permission(self, request):
+        return request.COOKIES.get('is_developer_sartori') == 'true'
+
+    def has_view_permission(self, request, obj=None):
+        return request.COOKIES.get('is_developer_sartori') == 'true'
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return request.COOKIES.get('is_developer_sartori') == 'true'

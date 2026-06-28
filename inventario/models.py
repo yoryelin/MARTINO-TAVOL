@@ -129,3 +129,17 @@ class EstadisticaVisita(models.Model):
 
     def __str__(self):
         return f"Visitas el {self.fecha}: {self.contador}"
+
+class AccessLog(models.Model):
+    ip_address = models.CharField(max_length=45, verbose_name="Dirección IP")
+    path = models.CharField(max_length=255, verbose_name="Ruta Visitada")
+    user_agent = models.TextField(blank=True, verbose_name="Navegador/Dispositivo")
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora")
+
+    class Meta:
+        verbose_name = "Registro de Acceso"
+        verbose_name_plural = "Registros de Accesos"
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.ip_address} - {self.path} ({self.timestamp.strftime('%Y-%m-%d %H:%M:%S')})"
