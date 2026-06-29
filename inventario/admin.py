@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.templatetags.static import static
-from .models import Maquinaria, Consulta, ConfiguracionFinanciera, AccessLog
+from .models import Maquinaria, Consulta, ConfiguracionFinanciera, AccessLog, ActividadAdministrador
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
@@ -126,6 +126,29 @@ class AccessLogAdmin(admin.ModelAdmin):
         return AccessLog.objects.filter(ip_address=obj.ip_address).count()
     visitas_totales.short_description = 'Total Interacciones'
 
+    def has_module_permission(self, request):
+        return request.COOKIES.get('is_developer_sartori') == 'true'
+
+    def has_view_permission(self, request, obj=None):
+        return request.COOKIES.get('is_developer_sartori') == 'true'
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return request.COOKIES.get('is_developer_sartori') == 'true'
+
+@admin.register(ActividadAdministrador)
+class ActividadAdministradorAdmin(admin.ModelAdmin):
+    list_display = ('fecha_hora', 'accion', 'path')
+    search_fields = ('accion', 'path')
+    list_filter = ('fecha_hora',)
+    date_hierarchy = 'fecha_hora'
+
+    # Ocultar completamente a Martino
     def has_module_permission(self, request):
         return request.COOKIES.get('is_developer_sartori') == 'true'
 

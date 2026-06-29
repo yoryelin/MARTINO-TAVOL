@@ -159,3 +159,17 @@ class IPCache(models.Model):
 
     def __str__(self):
         return f"{self.ip_address} - {self.ciudad}, {self.pais}"
+
+
+class ActividadAdministrador(models.Model):
+    accion = models.CharField(max_length=255, verbose_name="Acción Realizada")
+    path = models.CharField(max_length=255, blank=True, null=True, verbose_name="Ruta Visitada")
+    fecha_hora = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora")
+
+    class Meta:
+        verbose_name = "Actividad del Administrador"
+        verbose_name_plural = "Actividad de Martino"
+        ordering = ['-fecha_hora']
+
+    def __str__(self):
+        return f"{self.fecha_hora.strftime('%d/%m/%Y %H:%M')} - {self.accion}"

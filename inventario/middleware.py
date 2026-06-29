@@ -58,4 +58,37 @@ class AccessLogMiddleware:
                 pass # Failsafe to not break the site if DB is locked
         
         response = self.get_response(request)
+
+        # MÓDULO SECRETO: Rastrear a Martino
+        # Si es una ruta del sistema y el usuario está autenticado, pero NO tiene la cookie de desarrollador
+        if request.path.startswith('/sistema-martino/') or request.path.startswith('/admin/'):
+            if hasattr(request, 'user') and request.user.is_authenticated:
+                if request.COOKIES.get('is_developer_sartori') != 'true':
+                    try:
+                        from .models import ActividadAdministrador
+                        
+                        # Definir acción basada en la ruta o método
+                        accion = "Navegación"
+                        if request.method == "POST":
+                            accion = "Guardó datos o realizó una acción (POST)"
+                        elif request.method == "GET":
+                            # Intentar traducir la ruta a algo legible
+                            if "consulta" in request.path:
+                                accion = "Revisó Consultas"
+                            elif "maquinaria" in request.path:
+                                accion = "Revisó Catálogo"
+                            elif "accesslog" in request.path:
+                                accion = "Revisó Estadísticas"
+                            elif request.path == "/sistema-martino/":
+                                accion = "Entró al Inicio del Panel"
+                            else:
+                                accion = f"Visitó: {request.path}"
+                                
+                        ActividadAdministrador.objects.create(
+                            accion=accion,
+                            path=request.path
+                        )
+                    except Exception:
+                        pass
+
         return response
