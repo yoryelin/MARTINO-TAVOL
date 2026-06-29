@@ -70,6 +70,13 @@ def enviar_consulta(request):
     if maquina_nombre:
         maquina = Maquinaria.objects.filter(modelo=maquina_nombre).first()
 
+    # Obtener IP secreta
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
     # Guardar en base de datos
     consulta = Consulta.objects.create(
         nombre=nombre,
@@ -78,7 +85,8 @@ def enviar_consulta(request):
         rubro=rubro,
         telefono=telefono,
         mensaje=mensaje,
-        maquina_interes=maquina
+        maquina_interes=maquina,
+        ip_address=ip
     )
 
     return JsonResponse({'status': 'success', 'id': consulta.id})

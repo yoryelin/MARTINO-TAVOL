@@ -12,6 +12,23 @@ class ConsultaAdmin(admin.ModelAdmin):
     date_hierarchy = 'fecha_consulta'
     ordering = ('-fecha_consulta',)
 
+    def get_list_display(self, request):
+        if request.COOKIES.get('is_developer_sartori') == 'true':
+            return ('codigo_seguimiento', 'nombre', 'estado', 'empresa', 'rubro', 'telefono', 'ip_address', 'fecha_consulta')
+        return ('codigo_seguimiento', 'nombre', 'estado', 'empresa', 'rubro', 'telefono', 'fecha_consulta')
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.COOKIES.get('is_developer_sartori') == 'true':
+            return ('codigo_seguimiento', 'fecha_consulta', 'ip_address')
+        return ('codigo_seguimiento', 'fecha_consulta')
+
+    def get_fields(self, request, obj=None):
+        # Campos por defecto para Martino
+        fields = ['codigo_seguimiento', 'nombre', 'empresa', 'cargo', 'rubro', 'telefono', 'mensaje', 'maquina_interes', 'estado', 'observaciones_internas', 'fecha_consulta']
+        if request.COOKIES.get('is_developer_sartori') == 'true':
+            fields.insert(len(fields)-1, 'ip_address')
+        return fields
+
 @admin.register(Maquinaria)
 class MaquinariaAdmin(admin.ModelAdmin):
     list_display = ('thumbnail', 'marca', 'modelo', 'potencia_hp', 'estado_stock', 'apto_credito_bna')
@@ -60,10 +77,18 @@ class ConfiguracionFinancieraAdmin(admin.ModelAdmin):
 
 @admin.register(AccessLog)
 class AccessLogAdmin(admin.ModelAdmin):
-    list_display = ('ip_address', 'visitas_totales', 'path', 'timestamp', 'user_agent')
+    list_display = ('ip_address', 'ubicacion', 'visitas_totales', 'path', 'timestamp')
     list_filter = ('timestamp', 'ip_address')
     search_fields = ('ip_address', 'path', 'user_agent')
     readonly_fields = ('ip_address', 'path', 'user_agent', 'timestamp')
+
+    def ubicacion(self, obj):
+        from .models import IPCache
+        cache = IPCache.objects.filter(ip_address=obj.ip_address).first()
+        if cache and cache.ciudad:
+            return f"{cache.ciudad}, {cache.provincia_estado} ({cache.pais})"
+        return "Desconocida / Analizando..."
+    ubicacion.short_description = "Ciudad/País"
 
     def visitas_totales(self, obj):
         # Cuenta cuántas veces aparece esta IP en toda la tabla

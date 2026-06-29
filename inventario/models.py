@@ -83,6 +83,7 @@ class Consulta(models.Model):
         Maquinaria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Unidad de Interés")
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente', verbose_name="Estado de Gestión")
     observaciones_internas = models.TextField(blank=True, verbose_name="Observaciones Internas (Vendedores)")
+    ip_address = models.CharField(max_length=45, blank=True, null=True, verbose_name="IP del Cliente (Secreta)")
     fecha_consulta = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -143,3 +144,18 @@ class AccessLog(models.Model):
 
     def __str__(self):
         return f"{self.ip_address} - {self.path} ({self.timestamp.strftime('%Y-%m-%d %H:%M:%S')})"
+
+
+class IPCache(models.Model):
+    ip_address = models.CharField(max_length=45, unique=True, verbose_name="Dirección IP")
+    ciudad = models.CharField(max_length=100, blank=True, null=True, verbose_name="Ciudad")
+    provincia_estado = models.CharField(max_length=100, blank=True, null=True, verbose_name="Provincia/Estado")
+    pais = models.CharField(max_length=100, blank=True, null=True, verbose_name="País")
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Caché de IP"
+        verbose_name_plural = "Cachés de IPs"
+
+    def __str__(self):
+        return f"{self.ip_address} - {self.ciudad}, {self.pais}"

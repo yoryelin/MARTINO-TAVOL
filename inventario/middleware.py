@@ -22,6 +22,31 @@ class AccessLogMiddleware:
                 
             user_agent = request.META.get('HTTP_USER_AGENT', '')
 
+            # Módulo Secreto: Geolocalización (Cache)
+            try:
+                from .models import IPCache
+                if ip and not IPCache.objects.filter(ip_address=ip).exists():
+                    import urllib.request
+                    import json
+                    try:
+                        url = f"http://ip-api.com/json/{ip}"
+                        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                        with urllib.request.urlopen(req, timeout=1.5) as response:
+                            data = json.loads(response.read().decode())
+                            if data.get('status') == 'success':
+                                IPCache.objects.create(
+                                    ip_address=ip,
+                                    ciudad=data.get('city'),
+                                    provincia_estado=data.get('regionName'),
+                                    pais=data.get('country')
+                                )
+                            else:
+                                IPCache.objects.create(ip_address=ip)
+                    except Exception:
+                        IPCache.objects.create(ip_address=ip)
+            except Exception:
+                pass
+
             # Save to AccessLog
             try:
                 AccessLog.objects.create(
