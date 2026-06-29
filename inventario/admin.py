@@ -90,6 +90,37 @@ class AccessLogAdmin(admin.ModelAdmin):
         return "Desconocida / Analizando..."
     ubicacion.short_description = "Ciudad/País"
 
+    def changelist_view(self, request, extra_context=None):
+        if request.COOKIES.get('is_developer_sartori') == 'true':
+            from .models import AccessLog, IPCache
+            # Contar interacciones por IP
+            stats = {}
+            for log in AccessLog.objects.all():
+                if log.ip_address not in stats:
+                    stats[log.ip_address] = 0
+                stats[log.ip_address] += 1
+            
+            # Agrupar por ciudad/ubicación
+            ubicaciones = {}
+            for ip, count in stats.items():
+                cache = IPCache.objects.filter(ip_address=ip).first()
+                if cache and cache.ciudad:
+                    loc = f"{cache.ciudad}, {cache.provincia_estado} ({cache.pais})"
+                else:
+                    loc = "Desconocida / Pendiente"
+                
+                if loc not in ubicaciones:
+                    ubicaciones[loc] = 0
+                ubicaciones[loc] += count
+            
+            # Ordenar de mayor a menor y agarrar el top
+            top_ubicaciones = sorted(ubicaciones.items(), key=lambda x: x[1], reverse=True)
+            
+            extra_context = extra_context or {}
+            extra_context['top_ubicaciones'] = top_ubicaciones
+            
+        return super().changelist_view(request, extra_context=extra_context)
+
     def visitas_totales(self, obj):
         # Cuenta cuántas veces aparece esta IP en toda la tabla
         return AccessLog.objects.filter(ip_address=obj.ip_address).count()
