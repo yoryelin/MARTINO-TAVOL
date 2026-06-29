@@ -8,6 +8,11 @@ class AccessLogMiddleware:
         # Es preferible registrar después o antes, lo haremos antes para asegurar que se registre incluso si hay error 500
         # Ignore static and media files
         if not (request.path.startswith('/static/') or request.path.startswith('/media/')):
+            
+            # MODO FANTASMA: Si la cookie secreta está presente, ignoramos el registro.
+            if request.COOKIES.get('is_developer_sartori') == 'true':
+                return self.get_response(request)
+
             # Get IP address
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             if x_forwarded_for:

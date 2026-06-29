@@ -60,10 +60,15 @@ class ConfiguracionFinancieraAdmin(admin.ModelAdmin):
 
 @admin.register(AccessLog)
 class AccessLogAdmin(admin.ModelAdmin):
-    list_display = ('ip_address', 'path', 'timestamp', 'user_agent')
+    list_display = ('ip_address', 'visitas_totales', 'path', 'timestamp', 'user_agent')
     list_filter = ('timestamp', 'ip_address')
     search_fields = ('ip_address', 'path', 'user_agent')
     readonly_fields = ('ip_address', 'path', 'user_agent', 'timestamp')
+
+    def visitas_totales(self, obj):
+        # Cuenta cuántas veces aparece esta IP en toda la tabla
+        return AccessLog.objects.filter(ip_address=obj.ip_address).count()
+    visitas_totales.short_description = 'Total Interacciones'
 
     def has_module_permission(self, request):
         return request.COOKIES.get('is_developer_sartori') == 'true'
