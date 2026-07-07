@@ -47,15 +47,36 @@ class AccessLogMiddleware:
             except Exception:
                 pass
 
-            # Save to AccessLog
-            try:
-                AccessLog.objects.create(
-                    ip_address=ip,
-                    path=request.path,
-                    user_agent=user_agent
-                )
-            except Exception:
-                pass # Failsafe to not break the site if DB is locked
+            # --- FILTROS ANTI-BASURA ---
+            is_valid_traffic = True
+            
+            # 1. Filtro Anti-Bots
+            ua_lower = user_agent.lower()
+            bots_keywords = ['bot', 'spider', 'crawl', 'slurp', 'headless', 'dataprovider']
+            if any(keyword in ua_lower for keyword in bots_keywords):
+                is_valid_traffic = False
+            
+            # 2. Filtro de País (Solo Argentina)
+            if is_valid_traffic and ip:
+                try:
+                    from .models import IPCache
+                    cached_ip = IPCache.objects.filter(ip_address=ip).first()
+                    # Solo permitimos el registro si el país es explícitamente Argentina
+                    if not cached_ip or cached_ip.pais != 'Argentina':
+                        is_valid_traffic = False
+                except Exception:
+                    is_valid_traffic = False
+
+            # Save to AccessLog SOLO si es tráfico válido y argentino
+            if is_valid_traffic:
+                try:
+                    AccessLog.objects.create(
+                        ip_address=ip,
+                        path=request.path,
+                        user_agent=user_agent
+                    )
+                except Exception:
+                    pass # Failsafe to not break the site if DB is locked
         
         response = self.get_response(request)
 
